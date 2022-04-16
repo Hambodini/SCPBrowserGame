@@ -1,0 +1,57 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Mar 8, 2022, 2:28:17 PM
+    Author     : Samuel McClatchey
+*/
+
+#nav li{
+  display: inline;
+  background-color:  #179cff;
+}
+
+#nav li:hover{
+  background-color:  #17c0ff;
+}
+
+#nav ul {
+  list-style-type: none;
+  background-color:  #ff6a17;
+  margin: 0;
+  padding: 0;
+}
+
+#nav ul li a{
+  text-align: center;
+  text-decoration: none;
+}
+.readonly {
+    background-color: lightgrey;
+}
+
+tr, td {
+    padding: 5px;
+}
+
+.userMessage {
+    padding-top: 10px;
+    text-decoration: underline;
+}
+
+.errorMessage{
+    color: red;
+}
+
+th, td {
+  border: 1px solid;
+}
+
+tr:nth-child(even) {
+  background-color: gainsboro;
+}
+
+th {
+    background-color: silver;
+}
