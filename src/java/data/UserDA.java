@@ -96,6 +96,41 @@ public class UserDA {
         }
     }
 
+    public static int UserNameToID(String userName) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "SELECT 'id' FROM user"
+                + "WHERE `user`.`username` = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, userName);
+            rs = ps.executeQuery();
+            int id = 0;
+            while (rs.next()) {
+                id = rs.getInt("id");
+
+            }
+            return id;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer??", e);
+                throw e;
+            }
+
+        }
+    }
+
     public static void update(String email, String password, int id) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -223,7 +258,7 @@ public class UserDA {
             }
         }
     }
-    
+
     public static User getUserByUsername(String userName) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -237,7 +272,7 @@ public class UserDA {
             ps.setString(1, userName);
             ResultSet rs = ps.executeQuery();
             User user = null;
-            
+
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String email = rs.getString("email");

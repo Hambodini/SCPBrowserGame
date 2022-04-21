@@ -4,7 +4,13 @@
  */
 package controllers;
 
+import business.User;
+import data.UserDA;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,23 +32,30 @@ public class SCPController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "/SCPMainMenu.jsp";
 
+        String url = "/SCPMainMenu.jsp";
         String action = request.getParameter("action");
+        //set an action value if there is none, to avoid null
         if (action == null) {
-            action = "first";
+            action = "none";
         }
 
         HttpSession session = request.getSession();
 
-        String message = null;
+        //check session to see if a user is logged in
+        String loggedInUser = (String) session.getAttribute("loggedInUser");
+        User user = null;
+        try {
+            user = UserDA.getUserByUsername(loggedInUser);
+        } catch (SQLException ex) {
+        }
 
         switch (action) {
             case "exit":
                 url = "/private?action=profile";
                 break;
             case "start":
-                int dayCount  = 1;
+                int dayCount = 1;
                 session.setAttribute("dayCount", dayCount);
                 url = "/SCPGame.jsp";
                 break;
@@ -57,8 +70,8 @@ public class SCPController extends HttpServlet {
                 break;
 
         }
-
-        getServletContext().getRequestDispatcher(url).forward(request, response);
+        getServletContext()
+                .getRequestDispatcher(url).forward(request, response);
 
     }
 
